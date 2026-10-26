@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "UUID": "com.adamc.applemusic",
+  "Name": "Apple Music Controls",
+  "Version": "1.0.0.0",
+  "Author": "DarkReaper",
+  "Description": "Play/pause, skip tracks and change the volume of the Apple Music app on Windows.",
+  "Category": "Apple Music",
+  "CategoryIcon": "imgs/category",
+  "Icon": "imgs/plugin",
+  "CodePath": "bin/AppleMusicPlugin.exe",
+  "SDKVersion": 2,
+  "Software": { "MinimumVersion": "6.5" },
+  "OS": [{ "Platform": "windows", "MinimumVersion": "10" }],
+  "Actions": [
+    {
+      "UUID": "com.adamc.applemusic.playpause",
+      "Name": "Play / Pause",
+      "Tooltip": "Play or pause Apple Music (opens Apple Music if it isn't running).",
+      "Icon": "imgs/actions/playpause",
+      "Controllers": ["Keypad"],
+      "DisableAutomaticStates": true,
+      "States": [
+        { "Image": "imgs/keys/play", "Name": "Paused" },
+        { "Image": "imgs/keys/pause", "Name": "Playing" }
+      ]
+    },
+    {
+      "UUID": "com.adamc.applemusic.next",
+      "Name": "Next Track",
+      "Tooltip": "Skip to the next song in Apple Music.",
+      "Icon": "imgs/actions/next",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/keys/next" }]
+    },
+    {
+      "UUID": "com.adamc.applemusic.previous",
+      "Name": "Previous Track",
+      "Tooltip": "Go back to the previous song (or restart the current one).",
+      "Icon": "imgs/actions/previous",
+      "Controllers": ["Keypad"],
+      "States": [{ "Image": "imgs/keys/previous" }]
+    },
+    {
+      "UUID": "com.adamc.applemusic.volumeup",
+      "Name": "Volume Up",
+      "Tooltip": "Turn Apple Music up (its own volume mixer slider). Hold to keep going.",
+      "Icon": "imgs/actions/volumeup",
+      "Controllers": ["Keypad"],
+      "PropertyInspectorPath": "pi/volume.html",
+      "States": [{ "Image": "imgs/keys/volumeup", "TitleAlignment": "bottom" }]
+    },
+    {
+      "UUID": "com.adamc.applemusic.volumedown",
+      "Name": "Volume Down",
+      "Tooltip": "Turn Apple Music down (its own volume mixer slider). Hold to keep going.",
+      "Icon": "imgs/actions/volumedown",
+      "Controllers": ["Keypad"],
+      "PropertyInspectorPath": "pi/volume.html",
+      "States": [{ "Image": "imgs/keys/volumedown", "TitleAlignment": "bottom" }]
+    },
+    {
+      "UUID": "com.adamc.applemusic.mute",
+      "Name": "Mute",
+      "Tooltip": "Mute or unmute Apple Music only.",
+      "Icon": "imgs/actions/mute",
+      "Controllers": ["Keypad"],
+      "DisableAutomaticStates": true,
+      "States": [
+        { "Image": "imgs/keys/sound", "Name": "Unmuted" },
+        { "Image": "imgs/keys/muted", "Name": "Muted" }
+      ]
+    }
+  ]
+}

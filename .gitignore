@@ -1,0 +1,12 @@
+# Build output (build.ps1 recreates these)
+bin/
+obj/
+
+# Packaged plugins (build.ps1 -Package)
+dist/
+*.streamDeckPlugin
+
+# Editor files
+.vs/
+.vscode/
+*.user

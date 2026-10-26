@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { margin: 0; padding: 8px 12px; background: #2d2d2d; color: #d8d8d8; font: 12px "Segoe UI", sans-serif; }
+    .row { display: flex; align-items: center; min-height: 32px; }
+    .row label { width: 110px; flex: none; color: #969696; }
+    .row input[type=range] { flex: 1; accent-color: #fa2d48; }
+    .row output { width: 40px; text-align: right; }
+    .row input[type=checkbox] { accent-color: #fa2d48; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <label for="step">Step</label>
+    <input id="step" type="range" min="1" max="20" value="5">
+    <output id="stepValue">5%</output>
+  </div>
+  <div class="row">
+    <label for="showVolume">Show volume on key</label>
+    <input id="showVolume" type="checkbox" checked>
+  </div>
+
+  <script>
+    let socket, context, settings = {};
+    const step = document.getElementById("step");
+    const stepValue = document.getElementById("stepValue");
+    const showVolume = document.getElementById("showVolume");
+
+    function render() {
+      step.value = settings.step ?? 5;
+      stepValue.textContent = step.value + "%";
+      showVolume.checked = settings.showVolume ?? true;
+    }
+
+    function save() {
+      settings.step = Number(step.value);
+      settings.showVolume = showVolume.checked;
+      if (socket?.readyState === WebSocket.OPEN)
+        socket.send(JSON.stringify({ event: "setSettings", context, payload: settings }));
+    }
+
+    step.addEventListener("input", () => { stepValue.textContent = step.value + "%"; save(); });
+    showVolume.addEventListener("change", save);
+
+    // Called by Stream Deck when the property inspector loads.
+    function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, actionInfo) {
+      context = uuid;
+      settings = JSON.parse(actionInfo).payload.settings || {};
+      render();
+      socket = new WebSocket("ws://127.0.0.1:" + port);
+      socket.onopen = () => socket.send(JSON.stringify({ event: registerEvent, uuid }));
+      socket.onmessage = e => {
+        const msg = JSON.parse(e.data);
+        if (msg.event === "didReceiveSettings") { settings = msg.payload.settings || {}; render(); }
+      };
+    }
+  </script>
+</body>
+</html>
